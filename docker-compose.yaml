@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: development
+    command: sh -c "
+      pnpm run start:dev"
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
